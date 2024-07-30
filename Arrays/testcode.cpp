@@ -24,5 +24,15 @@ int main(){
     for(int i=0;i<n1+n2;i++){
         cout<<combined[i]<<" ";
     }
+    int size=n1+n1;
+    if(size%2==0){
+        int mid=size/2;
+        float med=(combined[mid-1]+combined[mid])/2.0;
+        cout<<med<<endl;
+    }
+    else{
+        int med=size/2;
+        cout<<combined[med]  <<endl;
+    }
     cout<<endl;
 }
