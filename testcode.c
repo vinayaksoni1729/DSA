@@ -1,33 +1,62 @@
 #include <stdio.h>
-int bsearch(int arr[],int size,int target){
-    int left=0;
-    int right=size-1;
+#include <string.h>
 
-    while(left<=right){
-        int mid=left+(right-left)/2;
+void removeLeadingZeros(char* str) {
+    int len = strlen(str);
+    int index = 0;
 
-        if(arr[mid]==target){
-            return mid;
-        }
-        if(arr[mid]<target){
-            left=mid+1;
-        }
-        else{
-            right=mid-1;
-        }
+    // Find the index of the first non-zero character
+    while (index < len && str[index] == '0') {
+        index++;
     }
-    return -1;
+
+    // Shift all characters to the left to remove leading zeros
+    for (int i = 0; i < len - index; i++) {
+        str[i] = str[i + index];
+    }
+    str[len - index] = '\0';
+
+    // If the string is empty, set it to "0"
+    if (str[0] == '\0') {
+        str[0] = '0';
+        str[1] = '\0';
+    }
 }
-int main(){
-    int arr[]={1,2,3,4,5};
-    int size=sizeof(arr)/sizeof(arr[0]);
-    int target=3;
-    int result=bsearch(arr,size,target);
-    if(result!=-1){
-        printf("Element fount at %d\n",result);
+
+int main() {
+    int k;
+    int x;
+    printf("Enter the integer x: ");
+    scanf("%d", &x);
+    printf("Enter the number of digits to delete k: ");
+    scanf("%d", &k);
+
+    char str[20];
+    sprintf(str, "%d", x);
+
+    while (k > 0 && strlen(str) > 0) {
+        int len = strlen(str);
+        int removed = 0;
+        for (int i = 0; i < len - 1; i++) {
+            if (str[i] > str[i + 1]) {
+                for (int j = i; j < len - 1; j++) {
+                    str[j] = str[j + 1];
+                }
+                str[len - 1] = '\0';
+                removed = 1;
+                k--;
+                break;
+            }
+        }
+        if (!removed) {
+            str[len - 1] = '\0';
+            k--;
+        }
     }
-    else{
-        printf("element not found");
-    }
+
+    removeLeadingZeros(str);
+
+    printf("Resulting minimized number: %s\n", str);
+
     return 0;
 }
