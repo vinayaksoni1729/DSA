@@ -1,46 +1,31 @@
 #include <iostream>
 using namespace std;
 
-// Node structure
 struct Node {
     int data;
     Node* next;
-    Node(int val) : data(val), next(nullptr) {}
 };
 
-// Function to print the linked list
-void printList(Node* head) {
-    while (head) {
-        cout << head->data << " ";
-        head = head->next;
+void printList(Node* n) {
+    while (n != NULL) {
+        cout << n->data << " ";
+        n = n->next;
     }
     cout << endl;
 }
 
-// Function to append a new node at the end
-void append(Node*& head, int newData) {
-    Node* newNode = new Node(newData);
-    if (!head) {
-        head = newNode;
-        return;
-    }
-    Node* temp = head;
-    while (temp->next) {
-        temp = temp->next;
-    }
-    temp->next = newNode;
-}
-
 int main() {
-    Node* head = nullptr;
+    Node nodes[3];  // Array of 3 nodes
 
-    append(head, 10);
-    append(head, 20);
-    append(head, 30);
-    append(head, 40);
+    // Assign data and set up links
+    nodes[0].data = 1;
+    nodes[0].next = &nodes[1];
+    nodes[1].data = 2;
+    nodes[1].next = &nodes[2];
+    nodes[2].data = 3;
+    nodes[2].next = NULL;
 
-    cout << "Linked List: ";
-    printList(head);
+    printList(&nodes[0]);
 
     return 0;
 }
