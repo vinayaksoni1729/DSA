@@ -13,7 +13,7 @@ void printList(Node* n) {
     }
     cout << endl;
 }
-
+ 
 int main() {
     Node nodes[3];  // Array of 3 nodes
 
