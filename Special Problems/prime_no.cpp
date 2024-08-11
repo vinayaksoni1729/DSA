@@ -31,7 +31,7 @@ int main()
     {
         ans = "Composite";
     }
-    else if(isPrime)
+    else if(isPrime) 
     {
         ans = "Prime";
     }
