@@ -10,8 +10,7 @@ struct Node {
     // Constructor to create a new node
     Node(int val) {
         data = val;
-        left = nullptr;
-        right = nullptr;
+        left = right = nullptr;
     }
 };
 
