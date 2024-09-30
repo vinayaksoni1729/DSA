@@ -18,7 +18,7 @@ void mirrorTree(Node* root){
     }
     mirrorTree(root->left);
     mirrorTree(root->right);
-
+    
     Node* temp=root->left;
     root->left=root->right;
     root->right=temp;
