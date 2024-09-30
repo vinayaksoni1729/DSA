@@ -21,7 +21,7 @@ int height(Node* root, int& diameter){
     diameter=max(diameter,leftheight+rightheight);
     return max(leftheight,rightheight)+1;
 }
-int diameterbt(Node* root){
+int diameterbtee(Node* root){
     int diameter=0;
     height(root,diameter);
     return diameter;
@@ -39,7 +39,7 @@ int main() {
     root->right = new Node(3);
     root->left->left = new Node(4);
     root->left->right = new Node(5);
-    cout << "Diameter of the tree: " << diameterbt(root) << endl;
+    cout << "Diameter of the tree: " << diameterbtee(root) << endl;
 
     return 0;
 }
