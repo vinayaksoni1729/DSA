@@ -7,7 +7,7 @@ int main() {
     int k = 4;
     int size = sizeof(arr) / sizeof(arr[0]);
 
-    // Max-heap to store the smallest k elements
+    // Min-heap to store the largest k elements
     priority_queue<int, vector<int>, greater<int>> minheap;
 
     // Push elements to the heap
