@@ -36,7 +36,7 @@ vector<vector<int>> kClosestPoints(vector<vector<int>>& points, int k) {
 
     return result;
 }
-
+  
 int main() {
     // Example points
     vector<vector<int>> points = {{1, 3}, {-2, 2}, {5, 8}, {0, 1}};
