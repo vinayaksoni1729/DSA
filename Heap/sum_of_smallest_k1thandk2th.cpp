@@ -19,7 +19,7 @@ int sumfinder(int arr[],int n,int k1,int k2){
     int sum=0;
     for(int i = 0; i <n; i++){
         if(arr[i] > firstno && arr[i] < secondno){
-            sum=sum+i;
+            sum=sum+arr[i];
         }
     }
     return sum;
