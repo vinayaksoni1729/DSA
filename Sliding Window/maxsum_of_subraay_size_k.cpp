@@ -7,8 +7,8 @@ int maxSum(int k,int arr[],int n){
         return -1;
     }
     int maxVal=0,windowSum=0;
-    for(int i=0;i<k;i++){
-        windowSum+=arr[i];
+    for(int i=0;i<k;i++){  //initialization of first subarray 
+        windowSum+=arr[i];  //whether it is max or not
     }
     maxVal=windowSum;
     for(int i=k;i<n;i++){
