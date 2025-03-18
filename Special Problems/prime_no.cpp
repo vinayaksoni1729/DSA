@@ -26,17 +26,18 @@ int main()
     string ans;
     cout << "Enter a number to check-";
     cin >> n;
-    bool isPrime=prime(n);
-    if (!isPrime && n>1)
+    bool isPrime = prime(n);
+    if (!isPrime && n > 1)
     {
         ans = "Composite";
     }
-    else if(isPrime) 
+    else if (isPrime)
     {
         ans = "Prime";
     }
-    else{
-        ans="None";
+    else
+    {
+        ans = "None";
     }
     cout << "Entered number " << n << " is " << ans << endl;
 }
