@@ -1,73 +1,52 @@
 #include <iostream>
 #include <vector>
+#include <climits>
+#include <cmath>
+
 using namespace std;
 
-void merge(vector<int> &overFlow,int left,int mid,int right){
-    int n1=mid-left+1;
-    int n2=right-mid;
-    vector<int> L(n1),R(n2);
-    for(int i=0;i<n1;i++){
-        L[i]=overFlow[left+i];
+vector<int> x, y;
+int n, minDistance;
+
+int calculateDistance(int i, int j) { 
+    return abs(x[i] - x[j]) + abs(y[i] - y[j]);
+}
+
+void findOptimalPath(int current, vector<bool>& visited, int visitedCount, int currentDistance) {
+    if (visitedCount == n) {
+        minDistance = min(minDistance, currentDistance + calculateDistance(current, n + 1)); // Distance to destination
+        return;
     }
-    for(int j=0;j<n2;j++){
-        R[j]=overFlow[mid+1+j];
-    }
-    int i=0,j=0,k=left;
-    while(i<n1 && j<n2){
-        if(L[i]<=R[j]){
-            overFlow[k]=L[i];
-            i++;
-            k++;
-        }
-        else{
-            overFlow[k]=R[j];
-            j++;
-            k++;
+
+    for (int i = 1; i <= n; i++) {
+        if (!visited[i]) {
+            visited[i] = true;
+            findOptimalPath(i, visited, visitedCount + 1, currentDistance + calculateDistance(current, i));
+            visited[i] = false;
         }
     }
-    while(i<n1){
-        overFlow[k]=L[i];
-        i++;
-        k++;
-    }
-    while(j<n2){
-        overFlow[k]=R[j];
-        j++;
-        k++;
-    }
-    
-
 }
 
-void mergeSort(vector<int> &overFlow,int left,int right){
-    if(left<right){
-        int mid=left+(right-left)/2;
-        mergeSort(overFlow,left,mid);
-        mergeSort(overFlow,mid+1,right);
-        merge(overFlow,left,mid,right);
-    }
-}
+int main() {
+    int testCases;
+    cin >> testCases;
 
-int summer(int n,int k,vector<int> &overFlow){
-    int sum=0;
-    for(int i=0;i<k;i++){
-        sum+=overFlow[i];
-    }
-    return sum;
-}
+    for (int t = 1; t <= testCases; t++) {
+        cin >> n;
+        x.resize(n + 2);
+        y.resize(n + 2);
+        
+        cin >> x[n + 1] >> y[n + 1] >> x[0] >> y[0]; // Destination and source coordinates
+        for (int i = 1; i <= n; i++) {
+            cin >> x[i] >> y[i]; // Drop-off locations
+        }
 
-int main(){
-    vector<int> overFlow={3,7,9};
-    int n=3;
-    int k=2;
-    int sum=0;
-    mergeSort(overFlow,0,overFlow.size()-1);
-    if (k > n) {
-        cout << "Error: k cannot be greater than n";
-        return 0;
+        minDistance = INT_MAX;
+        vector<bool> visited(n + 2, false);
+        findOptimalPath(0, visited, 0, 0);
+
+        cout << "#" << t << " " << minDistance << endl;
     }
-    else{
-        int result=(n-k)*overFlow[0] + summer(n,k,overFlow); 
-        cout<<"Result is "<<result;
-    }
+
+    return 0;
 }
