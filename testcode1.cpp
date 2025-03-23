@@ -1,58 +1,67 @@
 #include <iostream>
 #include <vector>
-#include <climits>
-#include <cmath>
+#include <queue>
 
 using namespace std;
 
-int calculateDistance(int x1, int y1, int x2, int y2) {
-    return abs(x1 - x2) + abs(y1 - y2);
-}
-
-int findOptimalPath(int current, vector<bool>& visited, int visitedCount, int currentDistance, 
-                    vector<pair<int, int>>& points, int n, int destinationIndex, int& minDistance) {
-    if (visitedCount == n) {
-        minDistance = min(minDistance, currentDistance + calculateDistance(points[current].first, points[current].second, 
-                                                                           points[destinationIndex].first, points[destinationIndex].second));
-        return minDistance;
-    }
-
-    for (int i = 1; i <= n; i++) {
-        if (!visited[i]) {
-            visited[i] = true;
-            findOptimalPath(i, visited, visitedCount + 1, currentDistance + 
-                            calculateDistance(points[current].first, points[current].second, points[i].first, points[i].second), 
-                            points, n, destinationIndex, minDistance);
-            visited[i] = false;
+bool isBipartite(vector<vector<int>> &adj, int start, vector<int> &color) {
+    queue<int> q;
+    q.push(start);
+    color[start] = 0; // Assign the first color (0)
+    
+    while (!q.empty()) {
+        int node = q.front();
+        q.pop();
+        
+        for (int neighbor : adj[node]) {
+            if (color[neighbor] == -1) { // If not colored, assign opposite color
+                color[neighbor] = 1 - color[node];
+                q.push(neighbor);
+            } else if (color[neighbor] == color[node]) {
+                return false; // Found same color on both adjacent nodes, not bipartite
+            }
         }
     }
-    return minDistance;
+    return true;
 }
 
 int main() {
-    int t, testCaseNo = 0;
-    cin >> t;
+    int n, m;
+    cin >> n >> m; // Number of vertices and edges
     
-    while (t--) {
-        int n;
-        cin >> n;
-        
-        vector<pair<int, int>> points(n + 2);
-        cin >> points[n + 1].first >> points[n + 1].second; // Destination
-        cin >> points[0].first >> points[0].second;         // Source
-        
-        for (int i = 1; i <= n; i++) {
-            cin >> points[i].first >> points[i].second; // Drop-off locations
-        }
-
-        vector<bool> visited(n + 2, false);
-        int minDistance = INT_MAX;
-        
-        findOptimalPath(0, visited, 0, 0, points, n, n + 1, minDistance);
-        
-        testCaseNo++;
-        cout << "#" << testCaseNo << " : " << minDistance << endl;
+    vector<vector<int>> adj(n);
+    vector<int> color(n, -1); // -1 indicates unvisited
+    
+    for (int i = 0; i < m; i++) {
+        int u, v;
+        cin >> u >> v;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
     }
-
+    
+    bool bipartite = true;
+    for (int i = 0; i < n; i++) {
+        if (color[i] == -1) { // If not visited, run BFS
+            if (!isBipartite(adj, i, color)) {
+                bipartite = false;
+                break;
+            }
+        }
+    }
+    
+    if (!bipartite) {
+        cout << "-1" << endl;
+    } else {
+        vector<int> setA, setB;
+        for (int i = 0; i < n; i++) {
+            if (color[i] == 0) setA.push_back(i);
+            else setB.push_back(i);
+        }
+        
+        // Print one of the sets (choosing setA)
+        for (int node : setA) cout << node << " ";
+        cout << endl;
+    }
+    
     return 0;
 }

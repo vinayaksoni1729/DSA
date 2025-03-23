@@ -1,52 +1,76 @@
 #include <iostream>
 #include <vector>
-#include <climits>
-#include <cmath>
-
+#include <queue>
 using namespace std;
 
-vector<int> x, y;
-int n, minDistance;
+bool isBipartite(vector<vector<int>> &adj, int start, vector<int> &color)
+{
+    queue<int> q;
+    q.push(start);
+    color[start] = 0;
 
-int calculateDistance(int i, int j) { 
-    return abs(x[i] - x[j]) + abs(y[i] - y[j]);
-}
-
-void findOptimalPath(int current, vector<bool>& visited, int visitedCount, int currentDistance) {
-    if (visitedCount == n) {
-        minDistance = min(minDistance, currentDistance + calculateDistance(current, n + 1)); // Distance to destination
-        return;
-    }
-
-    for (int i = 1; i <= n; i++) {
-        if (!visited[i]) {
-            visited[i] = true;
-            findOptimalPath(i, visited, visitedCount + 1, currentDistance + calculateDistance(current, i));
-            visited[i] = false;
+    while (!q.empty())
+    {
+        int node = q.front();
+        q.pop();
+        for (int neighbour : adj[node])
+        {
+            if (color[neighbour] == -1)
+            {
+                color[neighbour] = 1 - color[node];
+                q.push(neighbour);
+            }
+            else if (color[neighbour] == color[node])
+            {
+                return false;
+            }
         }
     }
+    return true;
 }
 
-int main() {
-    int testCases;
-    cin >> testCases;
-
-    for (int t = 1; t <= testCases; t++) {
-        cin >> n;
-        x.resize(n + 2);
-        y.resize(n + 2);
-        
-        cin >> x[n + 1] >> y[n + 1] >> x[0] >> y[0]; // Destination and source coordinates
-        for (int i = 1; i <= n; i++) {
-            cin >> x[i] >> y[i]; // Drop-off locations
-        }
-
-        minDistance = INT_MAX;
-        vector<bool> visited(n + 2, false);
-        findOptimalPath(0, visited, 0, 0);
-
-        cout << "#" << t << " " << minDistance << endl;
+int main()
+{
+    int n, m;
+    cin >> n >> m;
+    vector<vector<int>> adj(n);
+    vector<int> color(n, -1);
+    for (int i = 0; i < m; i++)
+    {
+        int u, v;
+        cin >> n >> m;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
     }
-
+    bool bipartite = true;
+    for (int i = 0; i < n; i++)
+    {
+        if (color[i] == -1)
+        {
+            if (!isBipartite(adj, i, color))
+            {
+                bipartite = false;
+                break;
+            }
+        }
+    }
+    if (!bipartite)
+    {
+        cout << "-1" << endl;
+    }
+    else
+    {
+        vector<int> setA, setB;
+        for (int i = 0; i < n; i++)
+        {
+            if (color[i] == 0)
+                setA.push_back(i);
+            else
+                setB.push_back(i);
+        }
+        for (int node : setA)
+            cout << node << " ";
+        cout << endl;
+    }
     return 0;
 }

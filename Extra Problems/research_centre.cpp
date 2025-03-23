@@ -3,6 +3,7 @@
 #include <queue>
 #include <climits>
 #include <algorithm>
+#include <tuple>
 using namespace std;
 
 int dx[4]={-1,1,0,0};
@@ -19,8 +20,8 @@ int bfs(vector<vector<int>>& matrix,int sx,int sy,vector<pair<int,int>>& rare_el
     int max_dist=0;
 
     while(!q.empty()){
-        pair<int,int> p=q.front();
-        int x=p.first,y=p.second;
+        int x,y;
+        tie(x,y)=q.front();
         q.pop();
 
         for(auto& rare:rare_elements){
