@@ -1,76 +1,53 @@
 #include <iostream>
-#include <vector>
 #include <queue>
 using namespace std;
 
-bool isBipartite(vector<vector<int>> &adj, int start, vector<int> &color)
-{
-    queue<int> q;
-    q.push(start);
-    color[start] = 0;
+struct Pipe{
+    bool up,own ,left,maxLen;
+};
+const int MAX=1005;
+int n,m,startX,startY,maxLen;
+bool visited[MAX][MAX];
+Pipe pipes[MAX][MAX];
+int dx[]={-1,1,0,0};
+int dy[]={0,0,-1,1};
+int bfs(){
+    if(grid[startX][startY]==0) return 0;
+    queue<pair<int,int>> q;
+    q.push({startX,startY});
+    visited[startX][startY]=true;
+    int explored=1,level=1;
+        while(!q.empty(){
+            int size=q.size();
+            while(size--){
+                int x=q.front().first;
+                int y=q.front().second;
+                q.pop();
+                for(int i=0;i<4;i++){
+                    int nx=x+dx[i],ny``     =y+dy[i];
 
-    while (!q.empty())
-    {
-        int node = q.front();
-        q.pop();
-        for (int neighbour : adj[node])
-        {
-            if (color[neighbour] == -1)
-            {
-                color[neighbour] = 1 - color[node];
-                q.push(neighbour);
+
+                }
             }
-            else if (color[neighbour] == color[node])
-            {
-                return false;
-            }
-        }
-    }
-    return true;
+        })
+
+}
+bool isValid(int x,int y){
+    return (x>=0 && x<n && y>=0 && y<m);
 }
 
-int main()
-{
-    int n, m;
-    cin >> n >> m;
-    vector<vector<int>> adj(n);
-    vector<int> color(n, -1);
-    for (int i = 0; i < m; i++)
-    {
-        int u, v;
-        cin >> n >> m;
-        adj[u].push_back(v);
-        adj[v].push_back(u);
-    }
-    bool bipartite = true;
-    for (int i = 0; i < n; i++)
-    {
-        if (color[i] == -1)
-        {
-            if (!isBipartite(adj, i, color))
-            {
-                bipartite = false;
-                break;
-            }
+
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+    int t;
+    cin>>t;
+    while(t--){
+        cin>>n>>m>>startX>>startY>>maxLen;
+        for(int i=0;i<n;i++){
+            cin>>grid[i][j];
+            visited[i][j]=false;
         }
+        cout<<bfs()<<endl;
     }
-    if (!bipartite)
-    {
-        cout << "-1" << endl;
-    }
-    else
-    {
-        vector<int> setA, setB;
-        for (int i = 0; i < n; i++)
-        {
-            if (color[i] == 0)
-                setA.push_back(i);
-            else
-                setB.push_back(i);
-        }
-        for (int node : setA)
-            cout << node << " ";
-        cout << endl;
-    }
-    return 0;
 }
