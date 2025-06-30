@@ -45,3 +45,22 @@ int main(){
 
     
 }
+/*
+**1st approach(own)**
+we keep unordered map/vector to keep count of occurance of numbers
+then we will use another for loop with while to make a corresponding sorted array and replace the older one 
+**2nd approach(dutch national flag algo)**
+imagine 3 pointers start , mid , end 
+initially start and mid at 0th index
+end at n-1th index
+and run while mid<=end 
+case 1
+if there is 0 means we need it in left side , so make it= to start also increment start and mid
+case 2
+if 1 means we r not sure what to do so just move mid pointer to next index
+case 3 
+if its 2 means we need it at end of index so make it = to end and decrement end
+here we keep in mind that we r partiually sorting array and keep sorted aside and focus on unsorted part
+
+
+*/
