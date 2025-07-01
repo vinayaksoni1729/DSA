@@ -1,31 +1,35 @@
-
+#include <cstdint>
 #include <iostream>
-bool palindrome_check(int x){
-    int x_org=x;
-    int unit;
-    int y=0;
-    while(x>0){
-        unit=x%10;
-        x=x/10;
-        y=y*10+unit;
+
+bool isPalindrome(int x) {
+    if (x < 0) return false; // Negative numbers are not palindromes
+
+    int original = x;
+    int reversed = 0;
+
+    while (x > 0) {
+        int digit = x % 10;
+        
+        // Optional overflow check for interviews (if using large ints)
+        if (reversed > (INT32_MAX - digit) / 10) return false;
+
+        reversed = reversed * 10 + digit;
+        x /= 10;
     }
-    if(y==x_org){
-        return true;
-    }
-    else{
-        return false;
-    }
+
+    return reversed == original;
 }
 
-int main(){
+int main() {
     int x;
-    std::cout<<"Enter number to check for palindrome-";
-    std::cin>>x;
-    if(palindrome_check(x)){
-        std::cout<<"Valid";
-    }
-    else{
-        std::cout<<"Invalid";
+    std::cout << "Enter number to check for palindrome: ";
+    std::cin >> x;
+
+    if (isPalindrome(x)) {
+        std::cout << "Valid\n";
+    } else {
+        std::cout << "Invalid\n";
     }
 
+    return 0;
 }
