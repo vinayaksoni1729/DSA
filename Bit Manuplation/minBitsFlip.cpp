@@ -4,10 +4,9 @@ int main(){
     int b=5;
     int diff=a^b;
     int count=0;
-    for(int i=0;i<31;i++){
-        if(diff & (1<<i)){
-            count++;
-        }
+    while(diff){
+        diff&=diff-1;
+        count++;
     }
     std::cout<<"Min bits need to make both numbers same is "<<count;
 }
