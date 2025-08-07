@@ -1,9 +1,10 @@
 #include <iostream>
 int countSetBits(int n){
+//Brian Kernighan’s algorithm:
     int count=0;
-    while(n>=1){
-        count+=n&1;
-        n=n>>1;
+    while(n){
+        n&=(n-1);
+        count++;
     }
     return count;
 }
