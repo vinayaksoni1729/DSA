@@ -17,7 +17,7 @@ public:
     CircularList(){
         head=tail=nullptr;
     }
-    void insertAtHead(int val,Node* &head){
+    void insertAtHead(int val){
         Node* newNode=new Node(val);
         if(head==nullptr){
             head=tail=newNode;
@@ -28,7 +28,7 @@ public:
             head=newNode;
         }
     }
-    void insertAtTail(int val,Node* &head){
+    void insertAtTail(int val){
         Node* newNode=new Node(val);
         if(head==nullptr){
             head=tail=newNode;
@@ -47,7 +47,6 @@ public:
             cout<<temp->data<<"->";
             temp=temp->next;
         }
-        cout<<temp->data;
     }
     void deleteAtHead(){
         if(head==nullptr) return;
@@ -62,17 +61,36 @@ public:
             delete delNode;
         }
     }
+    void deleteAtTail(){
+        if(head==nullptr) return;
+        else if(head==tail){
+            delete tail;
+            head=tail=nullptr;
+        }
+        else{
+            Node* delNode=tail;
+            Node* prev=head;
+            while(prev->next!=tail){
+                prev=prev->next;
+            }
+            prev->next=head;
+            tail->next=nullptr;
+            prev=tail;
+            delete delNode;
+        }
+    }
 };
 int main(){
     CircularList cll;
     Node* head=nullptr;
-    cll.insertAtHead(1,head);
-    cll.insertAtHead(2,head);
-    cll.insertAtHead(3,head);
-    cll.insertAtTail(0,head);
+    cll.insertAtHead(1);
+    cll.insertAtHead(2);
+    cll.insertAtHead(3);
+    cll.insertAtTail(0);
     cll.print();
     cout<<"\nAfter deleting\n";
     cll.deleteAtHead();
+    cll.deleteAtTail();
     cll.print();
     return 0;
 }
