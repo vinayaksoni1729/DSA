@@ -4,7 +4,7 @@ using namespace std;
 bool isCycleBFS(int start, vector<int> adj[], vector<int> &visited) {
     queue<pair<int, int>> q; // (node, parent)
     q.push({start, -1});
-    visited[start] = 1;
+    visited[start] = 1; 
 
     while (!q.empty()) {
         int node = q.front().first;
